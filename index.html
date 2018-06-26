@@ -1,0 +1,156 @@
+<html lang="en">
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NYSL Mobile App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link href="https://fonts.googleapis.com/css?family=Dosis|East+Sea+Dokdo|Indie+Flower|Shadows+Into+Light" rel="stylesheet">
+    <!--    <link rel="apple-touch-icon" href="apple-touch-icon-iphone.png"> FOR ICON - MUST BE IN PNG-->
+</head>
+
+<body>
+    <div id="main">
+
+
+        <div class="icon-bar">
+            <!--            <a id = "logo" href=""><img src="images/nysl_logo.png" alt=""></a>-->
+            <button type="button" href="javascript:history.go(-1)"><i class="fas fa-chevron-circle-left"></i></button>
+            <button v-on:click="mainToChat" type="button"><i class="far fa-comments"></i></button>
+        </div>
+        <div v-if="path == 0">
+            <div class="background_img">
+                <h1>Welcome to NYSL</h1>
+            </div>
+        </div>
+
+
+        <div v-if="path == 1">
+            <div id="back">
+                <h2>All Dates</h2>
+                <button v-on:click="changePage" type="button" class="block">See All</button>
+                <div v-bind:class="date" v-for="date in dates" :value='date' :data-name='date'>
+                    <button id="btn" type="button" class="block" v-on:click="togglePages(date)">{{date}}</button>
+                </div>
+            </div>
+        </div>
+        <div v-if="path == 2">
+            <div>
+                <h2>All Dates</h2>
+                <div class="allDates" data-name='' v-for="game in games" :value='game'>{{game.date}} {{game.time}} {{game.location}} <button>{{game.team_1}}</button> <button>{{game.team_2}}</button></div>
+
+            </div>
+        </div>
+        <div v-if="path == 3">
+            <!--           DISPLAYING THE DATES-->
+            <div>
+                <h2 id="date_heading"></h2>
+
+            </div>
+
+        </div>
+
+
+        <div v-if="path == 4">
+            <div id="back">
+                <h2>All Teams</h2>
+                <div v-bind:class="team" v-for="team in teams" :value='team'>
+                    <button id="btn" type="button" class="block">{{team}}</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div v-if="path == 5">
+            <h2>Locations</h2>
+            <div v-bind:class="location" v-for="location in locationNames" :value='location'>
+                <button id="btn" type="button" class="block">{{location}}</button>
+            </div>
+
+        </div>
+
+        <div v-if="path == 6">
+            <h2>Chatroom</h2>
+        </div>
+        <div class="nav-bar">
+            <button v-on:click="mainToCalendar" type="button"><i class="far fa-calendar-alt"></i></button>
+            <button v-on:click="mainToTeams" type="button"><i class="fas fa-futbol"></i></button>
+            <button v-on:click="mainToLocation" type="button"><i class="fas fa-map-marker"></i></button>
+        </div>
+
+
+        <!--
+        <div class="icon-bar">
+            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
+            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
+            <a href="#"><i class="far fa-comments"></i></a>
+        </div>
+
+        <div class="nav-bar">
+            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
+            <a href="#"><i class="fas fa-futbol"></i></a>
+            <a href="#"><i class="fas fa-map-marker"></i></a>
+        </div>
+-->
+
+
+
+
+        <!--
+
+        <div class="icon-bar">
+            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
+            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
+            <a href="#"><i class="far fa-comments"></i></a>
+        </div>
+
+
+        <div class="nav-bar">
+            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
+            <a href="#"><i class="fas fa-futbol"></i></a>
+            <a href="#"><i class="fas fa-map-marker"></i></a>
+        </div>
+-->
+
+
+
+        <!--
+        <div class="icon-bar">
+            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
+            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
+            <a href="#"><i class="far fa-comments"></i></a>
+        </div>
+
+
+        <div class="nav-bar">
+            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
+            <a href="#"><i class="fas fa-futbol"></i></a>
+            <a href="#"><i class="fas fa-map-marker"></i></a>
+        </div>
+-->
+
+    </div>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
