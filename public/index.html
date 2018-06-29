@@ -1,0 +1,344 @@
+<html lang="en">
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black transparent">
+    <!--    <meta name="apple-mobile-web-app-capable" content="yes"> -->
+    <title>NYSL Mobile App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/style.css" media="screen">
+    <link href="https://fonts.googleapis.com/css?family=Dosis|East+Sea+Dokdo|Indie+Flower|Shadows+Into+Light" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico|Quicksand|Rubik|Ubuntu" rel="stylesheet">
+
+    <link rel="apple-touch-icon" href="styles/images/Icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="styles/images/Icon-76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="styles/images/Icon-60@2x.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="styles/images/Icon-76@2x.png">
+
+
+    <!--
+    <link rel="shortcut icon" sizes="128x128" href="app_icon128.png">
+    <link rel="shortcut icon" sizes="196x196" href="app_icon196.png">
+-->
+
+
+
+</head>
+
+<body>
+    <div id="main">
+        <!--        <div class="icon-bar">-->
+        <!--            <a id = "logo" href=""><img src="images/nysl_logo.png" alt=""></a>-->
+
+        <!--            <h1 id="heading_2">Northside Youth Soccer League</h1>-->
+
+        <!--        </div>-->
+
+        <div v-if="path == 0">
+            <div class="background_img">
+                <button class="logo-button_home" type="button" v-on:click="backToHomePage">
+           </button>
+                <!--                 <img src="styles/images/nysl_logo.png">-->
+
+                <h1 id="heading_1">Welcome</h1>
+                <!--                <h1 id="heading_2">Northside Youth Soccer League</h1>-->
+                <div class="ball"></div>
+
+               <div class="nav-bar-home">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+<!--                <button v-on:click="backToPreviousPage" type="button"><div class="logo-text"></div></button>-->
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+            </div>
+        </div>
+
+
+        <div v-if="path == 1">
+            <div class="page_style">
+                <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+                <h2>All Dates</h2>
+                <button v-on:click="seeAllDates" type="button" class="block">See All <span class = "arrow">  </span></button>
+                <div v-bind:class="date" v-for="date in dates" :value='date' :data-name='date'>
+                    <button id="btn" type="button" class="block" v-on:click="seeOneDate(date)">{{date}} <span class = "arrow"> </span></button>
+                    
+                </div>
+                 <div class="landscape_image"><img src="styles/images/design1_image1.jpg" alt=""></div>
+            </div>
+            <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+        </div>
+        <div v-if="path == 2">
+            <div class="page_style">
+                <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+                <h2>All Games</h2>
+                <div class="allDates" data-name='' v-for="game in games" :value='game'>
+                   <div id="teamText" >
+                    <div class="team_style">{{game.team_1}} v {{game.team_2}}</div>
+                    <div>{{game.date}}</div>
+                    <div>{{game.time}}</div>
+                    <div>{{game.location}}</div>
+</div>
+                </div>
+               
+                <div></div>
+            </div>
+
+            <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+        </div>
+
+        <div v-if="path == 3" lazy>
+            <div class="page_style">
+                <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+                <h2 id="date_heading">{{dateHeading}}</h2>
+                <div class="allDates" v-for="date in team_data" :value='date' :data-name='date.location'>
+                    <div id="teamText">
+                        <div class="team_style">{{date.team_1}} v {{date.team_2}}</div>
+                        <div>{{date.time}}</div>
+                        <!--                        <button id="btn" type="button" class="block" v-on:click="extraLocationPages">{{date.location}}</button>-->
+                        <div>{{date.location}}</div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+        </div>
+
+
+        <div v-if="path == 4">
+            <div id="back" class="page_style">
+                <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+                <h2>All Teams</h2>
+                <div v-bind:class="team" v-for="team in teams" :value='team' :data-name='team'>
+                    <button id="btn" type="button" class="block" v-on:click="displayPages(team)">{{team}} <span class = "arrow">  </span></button>
+                </div>
+                <div class="landscape_image_2"><img src="styles/images/design1_image1.jpg" alt=""></div>
+            </div>
+
+            <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+        </div>
+
+        <div v-if="path == 5">
+            <div class="page_style">
+                <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+                <h2>Locations</h2>
+                <div v-bind:class="location" v-for="location in locationNames" :value='location' :data-name='location'>
+                    <button id="btn" type="button" class="block" v-on:click="showPages(location)">{{location}} <span class = "arrow">  </span></button>
+                </div>
+                <div class="landscape_image_1"><img src="styles/images/design1_image1.jpg" alt=""></div>
+            </div>
+
+           <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+        </div>
+
+        <div v-if="path == 7">
+            <div class="page_style">
+                <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+                <h2 id="teamName">Team {{teamHeading}}</h2>
+                <div class="allDates" v-for="team in team_data" :value='team'>
+                    <div id="teamText">
+                        <div class="team_style">{{team.team_1}} v {{team.team_2}}</div>
+                        <div>{{team.date}}</div>
+                        <div>{{team.time}}</div>
+                        <div>{{team.location}}</div>
+                    </div>
+                </div>
+            </div>
+
+           <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+        </div>
+
+        <div v-if="path == 8">
+            <div class="page_style">
+                <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+                <h2>{{locationHeading}}</h2>
+                <iframe class="map_style" frameborder="0" style="width: 100%; height: 400px; border:2px solid black" v-bind:src='maps' allowfullscreen></iframe>
+            </div>
+
+            <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+        </div>
+
+        <div v-if="path == 6">
+            <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+            <div class="page_style">
+                <h2>Chatroom</h2>
+            </div>
+
+           <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+        </div>
+
+
+        <!--
+        <div class="nav-bar">
+            <button v-on:click="mainToCalendar" type="button"><i class="far fa-calendar-alt"><div class="logo-text">Calendar</div></i></button>
+            <button v-on:click="mainToTeams" type="button"><i class="fas fa-futbol"><div class="logo-text">Teams</div></i></button>
+            <button v-on:click="backToPreviousPage" type="button"><i class="fas fa-arrow-left"><div class="logo-text">Back</div></i></button>
+            <button v-on:click="mainToLocation" type="button"><i class="fas fa-map-marker"><div class="logo-text">Location</div></i></button>
+            <button v-on:click="mainToChat" type="button"><i class="far fa-comments"><div class="logo-text">Chat</div></i></button>
+        </div>
+-->
+
+
+
+
+        <!--
+        <div class="icon-bar">
+            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
+            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
+            <a href="#"><i class="far fa-comments"></i></a>
+        </div>
+
+        <div class="nav-bar">
+            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
+            <a href="#"><i class="fas fa-futbol"></i></a>
+            <a href="#"><i class="fas fa-map-marker"></i></a>
+        </div>
+-->
+
+
+
+
+        <!--
+
+        <div class="icon-bar">
+            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
+            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
+            <a href="#"><i class="far fa-comments"></i></a>
+        </div>
+
+
+        <div class="nav-bar">
+            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
+            <a href="#"><i class="fas fa-futbol"></i></a>
+            <a href="#"><i class="fas fa-map-marker"></i></a>
+        </div>
+-->
+
+
+
+        <!--
+        <div class="icon-bar">
+            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
+            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
+            <a href="#"><i class="far fa-comments"></i></a>
+        </div
+
+
+        <div class="nav-bar">
+            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
+            <a href="#"><i class="fas fa-futbol"></i></a>
+            <a href="#"><i class="fas fa-map-marker"></i></a>
+        </div>
+-->
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDrf8j3bEoIPf1NjEeFID3JEgA97mmpiu8",
+            authDomain: "nysl-mobile-web-app-5f3ca.firebaseapp.com",
+            databaseURL: "https://nysl-mobile-web-app-5f3ca.firebaseio.com",
+            projectId: "nysl-mobile-web-app-5f3ca",
+            storageBucket: "nysl-mobile-web-app-5f3ca.appspot.com",
+            messagingSenderId: "1072090962410"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="scripts/main.js"></script>
+
+</body>
+
+</html>
