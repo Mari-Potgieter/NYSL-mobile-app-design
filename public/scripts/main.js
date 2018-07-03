@@ -154,12 +154,18 @@ var main = new Vue({
         team_data: [],
         path: 0,
         history: [0],
+        buttonLog: "Sign in",
+        firebaseChatRoom: [],
 
 
 
     },
     created: function () {
         this.start();
+        $("#posts").hide();
+        $(".inputs").hide();
+        $(".logout").hide();
+
 
 
     },
@@ -178,6 +184,7 @@ var main = new Vue({
                     var data = json;
                     console.log("data", data);
 
+
                     main.games = data.gamesObject;
                     main.teams = data.teams;
                     main.locations = data.locations;
@@ -188,13 +195,15 @@ var main = new Vue({
                     //                        main.removeDuplicates(main.games);
                     main.findTheLocations();
 
+
+
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
         },
         backToHomePage: function () {
-          this.path = 0;  
+            this.path = 0;
         },
         backToPreviousPage: function () {
             //            if (this.path == 1) {
@@ -316,6 +325,7 @@ var main = new Vue({
             this.path = 6;
             this.history.push(this.path);
         },
+
         findDates: function () {
             var games = this.games;
             var array = [];
@@ -340,18 +350,206 @@ var main = new Vue({
             this.locationNames = locationNames;
 
         },
-        
+        logout: function () {
+            $(".advice").show();
+            $("#posts").hide();
+            $(".inputs").hide();
+            $(".logout").hide();
+            firebase.auth().signOut();
 
-        //            removeDuplicates: function (array) {
-        //                //            let teams = [];
-        //                for (let i = 0; i < array.length; i++) {
-        //                    if (this.teams.indexOf(array[i].team_1) == -1) {
-        //                        this.teams.push(array[i].team_1);
-        //                    }
-        //                }
-        //                console.log(this.teams);
-        //                //            this.teams.push(unique_array);
-        //            }
+        },
+        login: function () {
+            var provider = new firebase.auth.GoogleAuthProvider();
+
+            firebase.auth().signInWithPopup(provider)
+                .then(function () {
+
+                    main.getPosts();
+                })
+            //                .catch(function () {
+            //                    alert("Something went wrong");
+            //                });
+        },
+
+        writeNewPost: function () {
+            if (!$("#textInput").val()) {
+                return
+            }
+
+            var text = document.getElementById("textInput").value;
+            var userName = firebase.auth().currentUser.displayName;
+            var image = firebase.auth().currentUser.photoURL;
+
+            var postData = {
+                name: userName,
+                picture: image,
+                body: text,
+
+            };
+            // Get a key for a new Post.
+            var newPostKey = firebase.database().ref().child('myChat').push().key;
+
+            var updates = {};
+            updates[newPostKey] = postData;
+
+            $("#textInput").val("");
+
+            return firebase.database().ref().child('myChat').update(updates);
+        },
+
+        getPosts: function () {
+
+            $(".advice").hide();
+            $("#posts").show();
+            $(".inputs").show();
+            $(".logout").show();
+            firebase.database().ref().off()
+            firebase.database().ref('myChat').on('value', function (data) {
+
+
+                var posts = document.getElementById("posts");
+
+                posts.innerHTML = "";
+
+                var messages = data.val();
+                var template = "";
+
+                for (var key in messages) {
+                    if (messages[key].name == firebase.auth().currentUser.displayName) {
+                        template += `
+          <div class="notification is-info">
+            <p class="name"><img src=${messages[key].picture}>${messages[key].name}</p>
+            
+            <p class="text">${messages[key].body}</p>
+          </div>
+        `;
+                    } else {
+                        template += `
+          <div class="notification is-primary">
+            <p class="name"><img src=${messages[key].picture}>${messages[key].name}</p>  
+            <p class="text">${messages[key].body}</p>
+          </div>
+        `;
+                    }
+                }
+                posts.innerHTML = template;
+                $(".box").animate({
+                    scrollTop: $(".box").prop("scrollHeight")
+                }, 500);
+
+            })
+
+            console.log("getting posts");
+
+        },
+        mainToTeamChat: function (teamHeading) {
+            this.path = 9;
+            this.history.push(this.path);
+        },
+        loginTeam: function (teamHeading) {
+
+
+            var teamheading = this.firebaseChatRoom;
+            var x = document.querySelector("[data-name='" + teamHeading + "']")
+            teamheading = x.dataset.name;
+            this.firebaseChatRoom = teamheading;
+            console.log(this.firebaseChatRoom);
+
+
+            var provider = new firebase.auth.GoogleAuthProvider();
+
+            firebase.auth().signInWithPopup(provider)
+                .then(function () {
+                    //                    this.firebaseChatRoom = teamHeading;
+                    main.getPostsTeam(teamHeading);
+                })
+        },
+        writeNewPostTeam: function () {
+            const team = this.firebaseChatRoom;
+            if (!$("#textInput").val()) {
+                return
+            }
+
+            var text = document.getElementById("textInput").value;
+            var userName = firebase.auth().currentUser.displayName;
+            var image = firebase.auth().currentUser.photoURL;
+
+            var postData = {
+                name: userName,
+                picture: image,
+                body: text,
+
+            };
+            // Get a key for a new Post.
+            var newPostKey = firebase.database().ref().child('teamChat/' + team).push().key;
+
+            var updates = {};
+            updates["teamChat/" + team + "/" + newPostKey] = postData;
+
+            $("#textInput").val("");
+
+            return firebase.database().ref().update(updates);
+        },
+
+        getPostsTeam: function () {
+            $("#postsTeam").show();
+            $(".inputsTeam").show();
+            $(".logoutTeam").show();
+            this.path = 9;
+            const team = this.firebaseChatRoom;
+            //            $(".advice").hide();
+            //            $("#posts").show();
+            //            $(".inputs").show();
+            //            $(".logout").show();
+            firebase.database().ref('U1').off('value')
+            firebase.database().ref('U2').off('value')
+            firebase.database().ref('U3').off('value')
+            firebase.database().ref('U4').off('value')
+            firebase.database().ref('U5').off('value')
+            firebase.database().ref('U6').off('value')
+            firebase.database().ref('teamChat/' + team).on('value', function (data) {
+
+
+                var posts = document.getElementById("postsTeam");
+
+                posts.innerHTML = "";
+
+                var messages = data.val();
+                var template = "";
+
+                for (var key in messages) {
+                    if (messages[key].name == firebase.auth().currentUser.displayName) {
+                        template += `
+          <div class="notification is-info">
+            <p class="name"><img src=${messages[key].picture}>${messages[key].name}</p>
+            
+            <p class="text">${messages[key].body}</p>
+          </div>
+        `;
+                    } else {
+                        template += `
+          <div class="notification is-primary">
+            <p class="name"><img src=${messages[key].picture}>${messages[key].name}</p>  
+            <p class="text">${messages[key].body}</p>
+          </div>
+        `;
+                    }
+                }
+                posts.innerHTML = template;
+                $(".box").animate({
+                    scrollTop: $(".box").prop("scrollHeight")
+                }, 500);
+
+            })
+
+            console.log("getting posts");
+
+        },
+        logoutTeam: function () {
+            this.path = 4;
+            firebase.auth().signOut();
+
+        },
     },
 
 })

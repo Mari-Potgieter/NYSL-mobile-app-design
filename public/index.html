@@ -55,13 +55,13 @@
                 <!--                <h1 id="heading_2">Northside Youth Soccer League</h1>-->
                 <div class="ball"></div>
 
-               <div class="nav-bar-home">
-                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
-                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
-<!--                <button v-on:click="backToPreviousPage" type="button"><div class="logo-text"></div></button>-->
-                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
-                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
-            </div>
+                <div class="nav-bar-home">
+                    <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                    <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                    <!--                <button v-on:click="backToPreviousPage" type="button"><div class="logo-text"></div></button>-->
+                    <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                    <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+                </div>
 
             </div>
         </div>
@@ -75,9 +75,9 @@
                 <button v-on:click="seeAllDates" type="button" class="block">See All <span class = "arrow">  </span></button>
                 <div v-bind:class="date" v-for="date in dates" :value='date' :data-name='date'>
                     <button id="btn" type="button" class="block" v-on:click="seeOneDate(date)">{{date}} <span class = "arrow"> </span></button>
-                    
+
                 </div>
-                 <div class="landscape_image"><img src="styles/images/design1_image1.jpg" alt=""></div>
+                <div class="landscape_image"><img src="styles/images/design1_image1.jpg" alt=""></div>
             </div>
             <div class="nav-bar">
                 <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
@@ -94,14 +94,14 @@
            </button>
                 <h2>All Games</h2>
                 <div class="allDates" data-name='' v-for="game in games" :value='game'>
-                   <div id="teamText" >
-                    <div class="team_style">{{game.team_1}} v {{game.team_2}}</div>
-                    <div>{{game.date}}</div>
-                    <div>{{game.time}}</div>
-                    <div>{{game.location}}</div>
-</div>
+                    <div id="teamText">
+                        <div class="team_style">{{game.team_1}} v {{game.team_2}}</div>
+                        <div>{{game.date}}</div>
+                        <div>{{game.time}}</div>
+                        <div>{{game.location}}</div>
+                    </div>
                 </div>
-               
+
                 <div></div>
             </div>
 
@@ -178,7 +178,7 @@
                 <div class="landscape_image_1"><img src="styles/images/design1_image1.jpg" alt=""></div>
             </div>
 
-           <div class="nav-bar">
+            <div class="nav-bar">
                 <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
                 <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
                 <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
@@ -193,7 +193,9 @@
             <div class="page_style">
                 <button class="logo-button" type="button" v-on:click="backToHomePage">
            </button>
-                <h2 id="teamName">Team {{teamHeading}}</h2>
+                <h2 id="teamName">Team {{teamHeading}}
+                <button class="team_chat" type="button"  :value='teamHeading' :data-name='teamHeading' v-on:click="loginTeam(teamHeading)"></button> 
+           </h2>
                 <div class="allDates" v-for="team in team_data" :value='team'>
                     <div id="teamText">
                         <div class="team_style">{{team.team_1}} v {{team.team_2}}</div>
@@ -204,7 +206,7 @@
                 </div>
             </div>
 
-           <div class="nav-bar">
+            <div class="nav-bar">
                 <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
                 <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
                 <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
@@ -238,10 +240,32 @@
             <button class="logo-button" type="button" v-on:click="backToHomePage">
            </button>
             <div class="page_style">
-                <h2>Chatroom</h2>
+                <h2>Chatroom </h2>
+                <div class="chat">
+                    <div class="advice">
+                        <button id="login" class="button is-info" v-on:click="login">{{buttonLog}}</button>
+                        <img class="google_img" src="styles/images/google_signin.png" alt="">
+                        <div id="google_text">Sign in with Google</div>
+                    </div>
+                    <div class="logout"> <button id="logout" v-on:click="logout">Sign out</button></div>
+
+                    <div id="posts" class="box">
+                    </div>
+
+                    <div class="inputs">
+                        <input id="textInput" class="input" type="text" placeholder="Your message...">
+                        <button id="create-post" v-on:click="writeNewPost" class="button is-primary">Post</button>
+
+                    </div>
+
+
+
+                </div>
             </div>
 
-           <div class="nav-bar">
+
+
+            <div class="nav-bar">
                 <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
                 <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
                 <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
@@ -250,72 +274,67 @@
             </div>
 
 
+
         </div>
 
+       <div v-if="path == 9">
+            <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+            <div class="page_style">
+                <h2>Team Chat {{firebaseChatRoom}} </h2>
+                <div class="chat">
+
+                    <div class="logoutTeam"> <button id="logout" v-on:click="logoutTeam">Sign out</button></div>
+
+                    <div id="postsTeam" class="box">
+                    </div>
+
+                    <div class="inputsTeam">
+                        <input id="textInput" class="input" type="text" placeholder="Your message...">
+                        <button id="create-post" v-on:click="writeNewPostTeam()" class="button is-primary">Post</button>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+            <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Chat</div></button>
+            </div>
+
+
+
+        </div>
 
         <!--
-        <div class="nav-bar">
-            <button v-on:click="mainToCalendar" type="button"><i class="far fa-calendar-alt"><div class="logo-text">Calendar</div></i></button>
-            <button v-on:click="mainToTeams" type="button"><i class="fas fa-futbol"><div class="logo-text">Teams</div></i></button>
-            <button v-on:click="backToPreviousPage" type="button"><i class="fas fa-arrow-left"><div class="logo-text">Back</div></i></button>
-            <button v-on:click="mainToLocation" type="button"><i class="fas fa-map-marker"><div class="logo-text">Location</div></i></button>
-            <button v-on:click="mainToChat" type="button"><i class="far fa-comments"><div class="logo-text">Chat</div></i></button>
+        <div v-if="path == 9">
+
+            <button class="logo-button" type="button" v-on:click="backToHomePage">
+           </button>
+            <div class="page_style">
+                <h2>Chatroom</h2>
+
+            </div>
+            <div class="nav-bar">
+                <button v-on:click="mainToCalendar" type="button"><img src="styles/images/calendar%20icon.png" height="35"/><div class="logo-text">Calendar</div></button>
+                <button v-on:click="mainToTeams" type="button"><img src="styles/images/football.png" height="35"/><div class="logo-text">Teams</div></button>
+                <button v-on:click="backToPreviousPage" type="button"><img src="styles/images/left-arrow.png" height="35"/><div class="logo-text">Back</div></button>
+                <button v-on:click="mainToLocation" type="button"><img src="styles/images/worldwide.png" height="35"/><div class="logo-text">Location</div></button>
+                <button v-on:click="mainToChat" type="button"><img src="styles/images/speech-bubble.png" height="35"/><div class="logo-text">Login</div></button>
+            </div>
+
+
+
         </div>
 -->
-
-
-
-
-        <!--
-        <div class="icon-bar">
-            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
-            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
-            <a href="#"><i class="far fa-comments"></i></a>
-        </div>
-
-        <div class="nav-bar">
-            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
-            <a href="#"><i class="fas fa-futbol"></i></a>
-            <a href="#"><i class="fas fa-map-marker"></i></a>
-        </div>
--->
-
-
-
-
-        <!--
-
-        <div class="icon-bar">
-            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
-            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
-            <a href="#"><i class="far fa-comments"></i></a>
-        </div>
-
-
-        <div class="nav-bar">
-            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
-            <a href="#"><i class="fas fa-futbol"></i></a>
-            <a href="#"><i class="fas fa-map-marker"></i></a>
-        </div>
--->
-
-
-
-        <!--
-        <div class="icon-bar">
-            <a class="active" id="logo" href="#"><img src="images/nysl_logo.png" alt=""></a>
-            <a href="#"><i class="fas fa-chevron-circle-left"></i></a>
-            <a href="#"><i class="far fa-comments"></i></a>
-        </div
-
-
-        <div class="nav-bar">
-            <a class="active" href="#"><i class="far fa-calendar-alt"></i></a>
-            <a href="#"><i class="fas fa-futbol"></i></a>
-            <a href="#"><i class="fas fa-map-marker"></i></a>
-        </div>
--->
-
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
@@ -338,6 +357,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="scripts/main.js"></script>
+    <!--    <script src="scripts/main2.js"></script>-->
 
 </body>
 
